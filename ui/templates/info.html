@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Name }}</title>
     <link rel="stylesheet" href="/ui/css/styleInfo.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvJan4qvOAXscYO55UOwBtDl9LL-hFir8&callback=initMap" async defer></script>
 </head>
 <body>
   <div class="main">
@@ -63,7 +62,7 @@
       </table>
       </div>
       <div class="GMap" id="map"></div>
-
+<!-- 
 <script>
 function initMap() {
   var mapDiv = document.getElementById('map');
@@ -112,7 +111,7 @@ function initMap() {
 </script>
 {{ range $key, $values  := .LocationsDate}}
 <div class="city" data-cityname="{{ $key }}"></div>
-{{ end }} 
+{{ end }}  -->
 </div>
       <footer>
         <div class="footer-container">
