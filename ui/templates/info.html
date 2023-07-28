@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Name }}</title>
+    <link rel="stylesheet" href="/ui/css/styleInfo.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvJan4qvOAXscYO55UOwBtDl9LL-hFir8&callback=initMap" async defer></script>
+</head>
+<body>
+  <div class="main">
+
+    <nav class="full-screen">
+      <div class="backdrop"></div>
+      <ul >
+        <li>
+				<a href="/"><i id="icon" class="fas fa-home"></i>Home</a>
+			</li>
+			<li>
+        <a href="https://01.alem.school/git/mnazarbe/groupie-tracker-geolocalization" target="_blank"><i id="icon" class="fas fa-user-alt"></i>Authors</a>
+			</li> 
+      <li>
+        <a href="/info?id={{.ID}}"><i id="Quit" class="fa fa-undo"></i>Return</a>
+      </li>
+		</ul>
+	</nav>
+  <button class="trigger"><i class="fas fa-bars"> GROUPIE-TRACKER</i></button>
+  <div class="vid">
+        <img src="{{ .Image }}" alt="">
+    </div>
+    <div class="table-wrap">
+      <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Members</th>
+              <th>Creation Date</th>
+              <th>First Album</th>
+              <th>Locations/Dates</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Name">{{ .Name}}</td>
+              <td data-label="Members"> <ul id="myList">
+                {{ range .Members }}
+                <li>{{ . }}</li>
+                {{ end }}
+              </ul></td>
+              <td data-label="Creation Date">{{ .CreationDate }}</td>
+              <td data-label="First Album">{{ .FirstAlbum }}</td>
+              <td data-label="Locations">{{ range $key, $values := .LocationsDate }}
+                <b>{{ $key }}</b>
+                <ul id="myList">
+                    {{ range $value := $values }}
+                    <li>{{ $value }}</li>
+                    {{ end }}
+                </ul>
+                {{ end }}</td>
+            </tr>
+          </tbody>
+      </table>
+      </div>
+      <div class="GMap" id="map"></div>
+
+<script>
+function initMap() {
+  var mapDiv = document.getElementById('map');
+  var map = new google.maps.Map(mapDiv, {
+    center: { lat: 40.7128, lng: -74.0060 }, 
+    zoom: 6,
+    gestureHandling: "greedy"
+
+  });
+  var bounds = new google.maps.LatLngBounds();
+  var infoWindow = new google.maps.InfoWindow();
+
+  var cityElements = document.getElementsByClassName('city');
+  for (var i = 0; i < cityElements.length; i++) {
+    var cityName = cityElements[i].dataset.cityname;
+
+    (function (city) {
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ address: city }, function (results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          var location = results[0].geometry.location;
+          var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: city
+          });
+
+          bounds.extend(location);
+          map.fitBounds(bounds);
+
+          marker.addListener('mouseover', function () {
+            infoWindow.setContent('Coordinates: ' + location.lat() + ', ' + location.lng());
+            infoWindow.open(map, marker);
+          });
+
+          marker.addListener('mouseout', function () {
+            infoWindow.close();
+          });
+        } else {
+          console.error('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    })(cityName);
+  }
+}
+</script>
+{{ range $key, $values  := .LocationsDate}}
+<div class="city" data-cityname="{{ $key }}"></div>
+{{ end }} 
+</div>
+      <footer>
+        <div class="footer-container">
+            <p>Groupie-Tracker © 2023</p>
+            <p>Made by <a href="https://01.alem.school/git/mnazarbe/groupie-tracker-geolocalization" target="_blank">mnazarbe and azakonov</a></p>
+        </div>
+    </footer>
+    <script src="/ui/script/script.js"></script>
+	<script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
+</body>
+</html>
