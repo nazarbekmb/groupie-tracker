@@ -1,4 +1,4 @@
-# Groupie Tracker Geolocalization
+# Groupie Tracker 
 
 The Groupie Tracker Geolocalization project is a web application that allows users to map the different concert locations of a certain artist or band provided by the Client. The backend of the application is written in Go, and it utilizes a process of converting addresses into geographic coordinates to place markers for the concerts on a map. 
 
@@ -47,5 +47,4 @@ Server is listening...http://127.0.0.1:7777
 
 The Groupie Tracker Geolocalization project provides an interactive and user-friendly way to visualize the concert locations of a certain artist or band. It demonstrates data manipulation, geolocation, geocoding, and interaction with Maps APIs. The application is written in Go, follows good coding practices, and includes unit tests for reliability. Enjoy tracking your favorite artists' concerts on the map!
 
-- azakonov
 - mnazarbe
